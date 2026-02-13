@@ -1,104 +1,120 @@
 <script setup lang="ts">
 import { watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { inject } from 'vue'
+import { useI18n } from 'vue-i18n'
 import SidebarContent from './SidebarContent.vue'
 
-const route = useRoute()
-const sidebarOpen = inject<{ value: boolean }>('sidebarOpen')!
-const closeSidebar = inject<() => void>('closeSidebar')!
+const props = defineProps<{
+  open: boolean
+  onClose: () => void
+}>()
+const { t } = useI18n()
 
-watch(
-  () => route.path,
-  () => closeSidebar()
-)
+const route = useRoute()
+
+watch(() => route.path, () => props.onClose())
 </script>
 
 <template>
-  <!-- Desktop: sidebar cố định bên trái, chỉ hiện từ lg trở lên -->
-  <aside
-    class="app-sidebar app-sidebar-desktop d-none d-lg-block border-end bg-light"
-    aria-label="Sidebar chính"
-  >
+  <!-- Desktop: sidebar nền đen, active dùng gradient xanh nước biển -->
+  <aside class="app-sidebar-desktop sidebar-theme-dark" :aria-label="t('common.menu')">
     <SidebarContent />
   </aside>
 
-  <!-- Mobile/Tablet: sidebar trượt từ trái, điều khiển bằng Vue state -->
-  <div class="sidebar-overlay d-lg-none" :class="{ show: sidebarOpen?.value }" aria-hidden="true">
-    <div class="sidebar-backdrop" aria-label="Đóng menu" @click="closeSidebar"></div>
-    <div class="sidebar-drawer bg-light">
-      <div class="sidebar-drawer-header border-bottom py-3 px-3 d-flex align-items-center justify-content-between">
-        <span class="fw-bold">Menu</span>
-        <button
-          type="button"
-          class="btn btn-link p-0 text-dark"
-          aria-label="Đóng menu"
-          @click="closeSidebar"
-        >
-          <i class="bi bi-x-lg fs-5"></i>
-        </button>
-      </div>
-      <div class="sidebar-drawer-body">
-        <SidebarContent />
+  <!-- Mobile: panel nền đen cùng style -->
+  <Teleport to="body">
+    <div
+      class="sidebar-overlay-mobile"
+      :class="{ 'sidebar-overlay-mobile--open': open }"
+      role="dialog"
+      aria-modal="true"
+      :aria-label="t('common.menu')"
+    >
+      <div class="sidebar-overlay-mobile__backdrop" :aria-label="t('common.closeMenu')" @click="onClose"></div>
+      <div class="sidebar-overlay-mobile__panel sidebar-theme-dark">
+        <div class="sidebar-overlay-mobile__header">
+          <span class="fw-bold sidebar-header-title">{{ t('common.menu') }}</span>
+          <button type="button" class="btn btn-link p-0 sidebar-header-title" :aria-label="t('common.closeMenu')" @click="onClose">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+        <div class="sidebar-overlay-mobile__body">
+          <SidebarContent />
+        </div>
       </div>
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <style scoped>
 .app-sidebar-desktop {
-  width: 240px;
+  width: 260px;
   min-height: 100vh;
   position: fixed;
   left: 0;
   top: 0;
   z-index: 1030;
+  border-right: 1px solid var(--sidebar-border, rgba(255, 255, 255, 0.08));
 }
+</style>
 
-/* Overlay mobile: backdrop + drawer */
-.sidebar-overlay {
+<style>
+/* Chỉ layout/overlay; màu sidebar do theme-sidebar.css + inject theme quyết định */
+
+.sidebar-overlay-mobile {
   position: fixed;
   inset: 0;
-  z-index: 1040;
+  z-index: 9999;
   pointer-events: none;
   visibility: hidden;
-  transition: visibility 0.25s ease;
+  transition: visibility 0.3s ease;
 }
-.sidebar-overlay.show {
+.sidebar-overlay-mobile.sidebar-overlay-mobile--open {
   pointer-events: auto;
   visibility: visible;
 }
 
-.sidebar-backdrop {
+.sidebar-overlay-mobile__backdrop {
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.5);
   opacity: 0;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.3s ease;
 }
-.sidebar-overlay.show .sidebar-backdrop {
+.sidebar-overlay-mobile--open .sidebar-overlay-mobile__backdrop {
   opacity: 1;
 }
 
-.sidebar-drawer {
+.sidebar-overlay-mobile__panel {
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
   width: 280px;
   max-width: 85vw;
-  box-shadow: 0.25rem 0 0.5rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.2);
   transform: translateX(-100%);
-  transition: transform 0.25s ease;
+  transition: transform 0.3s ease;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  z-index: 1;
+  /* background/border từ theme-sidebar.css */
 }
-.sidebar-overlay.show .sidebar-drawer {
+.sidebar-overlay-mobile--open .sidebar-overlay-mobile__panel {
   transform: translateX(0);
 }
 
-.sidebar-drawer-body {
+.sidebar-overlay-mobile__header {
+  padding: 1rem 1.25rem;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* border-color từ theme-sidebar.css */
+}
+.sidebar-overlay-mobile__body {
   flex: 1;
   overflow-y: auto;
   padding: 0.5rem 0;

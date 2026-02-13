@@ -1,0 +1,48 @@
+/**
+ * Sidebar theme: dùng --sidebar-bg (riêng, mặc định #1a1a1a) không dùng --bs-body-bg
+ * để sidebar luôn tối khi theme sáng, tránh bị trắng.
+ */
+html body #app .app-sidebar-desktop.sidebar-theme-dark,
+html body .app-sidebar-desktop.sidebar-theme-dark,
+html body aside.sidebar-theme-dark,
+html body .sidebar-theme-dark {
+  background-color: var(--sidebar-bg, #1a1a1a) !important;
+  background: var(--sidebar-bg, #1a1a1a) !important;
+  border-color: var(--sidebar-border, rgba(255, 255, 255, 0.08)) !important;
+  --sidebar-active-bg: var(--bs-primary, #0d6efd) !important;
+  --sidebar-active-color: #fff !important;
+  --sidebar-hover: var(--sidebar-hover, rgba(255, 255, 255, 0.06)) !important;
+}
+
+html body .sidebar-theme-dark a,
+html body .sidebar-theme-dark .sidebar-header-title,
+html body .sidebar-theme-dark .sidebar-nav-link,
+html body .sidebar-theme-dark .sidebar-nav-group__toggle,
+html body .sidebar-theme-dark .sidebar-nav-group__child-link {
+  color: var(--sidebar-text) !important;
+}
+
+html body .sidebar-theme-dark .sidebar-nav-link--active,
+html body .sidebar-theme-dark .sidebar-nav-group__child-link--active {
+  background: var(--sidebar-active-bg) !important;
+  color: var(--sidebar-active-color) !important;
+}
+html body .sidebar-theme-dark .sidebar-nav-group__toggle--active {
+  color: var(--sidebar-active-color) !important;
+}
+
+html body .sidebar-theme-dark a {
+  text-decoration: none !important;
+}
+
+/* Panel mobile */
+html body .sidebar-overlay-mobile__panel.sidebar-theme-dark {
+  background-color: var(--sidebar-bg, #1a1a1a) !important;
+  background: var(--sidebar-bg, #1a1a1a) !important;
+  border-color: var(--sidebar-border, rgba(255, 255, 255, 0.08)) !important;
+}
+
+html body .sidebar-overlay-mobile__panel .sidebar-overlay-mobile__header {
+  background-color: var(--sidebar-bg, #1a1a1a) !important;
+  border-bottom-color: var(--sidebar-border, rgba(255, 255, 255, 0.08)) !important;
+}

@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { toast } from 'vue3-toastify'
+
+const { t } = useI18n()
 const isOpen = ref(false)
 
-const notifications = ref([
-  { id: 1, text: 'Cập nhật hệ thống thành công', time: '5 phút trước', read: false },
-  { id: 2, text: 'Bạn có 3 tin nhắn mới', time: '1 giờ trước', read: true },
+const notifications = computed(() => [
+  { id: 1, text: t('notify.systemUpdated'), time: t('notify.timeAgo5m'), read: false },
+  { id: 2, text: t('notify.newMessages'), time: t('notify.timeAgo1h'), read: true },
 ])
 
 function showTestToast() {
-  toast.success('Đây là thông báo từ Toast!')
+  toast.success(t('common.toastMessage'))
   isOpen.value = false
 }
 </script>
@@ -34,8 +37,8 @@ function showTestToast() {
     </button>
     <ul class="dropdown-menu dropdown-menu-end shadow animate__animated animate__fadeIn">
       <li class="dropdown-header d-flex justify-content-between align-items-center">
-        <span>Thông báo</span>
-        <button class="btn btn-sm btn-outline-primary" @click="showTestToast">Test Toast</button>
+        <span>{{ t('common.notifications') }}</span>
+        <button class="btn btn-sm btn-outline-primary" @click="showTestToast">{{ t('common.testToast') }}</button>
       </li>
       <li><hr class="dropdown-divider" /></li>
       <li v-for="n in notifications" :key="n.id">
@@ -45,7 +48,7 @@ function showTestToast() {
         </a>
       </li>
       <li><hr class="dropdown-divider" /></li>
-      <li><a class="dropdown-item text-center text-primary" href="#">Xem tất cả</a></li>
+      <li><a class="dropdown-item text-center text-primary" href="#">{{ t('common.viewAll') }}</a></li>
     </ul>
   </div>
 </template>

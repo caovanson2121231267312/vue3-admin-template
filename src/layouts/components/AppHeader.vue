@@ -1,24 +1,34 @@
 <script setup lang="ts">
-import { computed, inject } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import HeaderNotifyDropdown from './HeaderNotifyDropdown.vue'
 import HeaderUserDropdown from './HeaderUserDropdown.vue'
 
+const props = defineProps<{
+  onOpenSidebar?: () => void
+}>()
+
 const route = useRoute()
-const pageTitle = computed(() => (route.meta?.title as string) ?? 'Vue Admin')
-const openSidebar = inject<() => void>('openSidebar')
+const { t } = useI18n()
+const pageTitle = computed(() => t((route.meta?.title as string) || 'common.appName'))
+
+function handleOpenSidebar() {
+  props.onOpenSidebar?.()
+}
 </script>
 
 <template>
   <header class="app-header navbar navbar-expand bg-white border-bottom shadow-sm animate__animated animate__fadeInDown">
     <div class="container-fluid app-header-inner">
-      <!-- Nút mở sidebar (chỉ hiện trên mobile/tablet < lg) -->
+      <!-- Nút mở sidebar (ẩn trên desktop lg+ vì đã có sidebar cố định) -->
       <button
-        class="sidebar-toggler btn btn-outline-secondary d-lg-none me-2 d-flex align-items-center justify-content-center"
+        v-if="onOpenSidebar"
+        class="sidebar-toggler btn btn-outline-secondary me-2 d-flex align-items-center justify-content-center d-lg-none"
         type="button"
-        aria-label="Mở menu"
-        title="Mở menu"
-        @click="openSidebar?.()"
+        :aria-label="t('common.openMenu')"
+        :title="t('common.openMenu')"
+        @click.prevent="handleOpenSidebar"
       >
         <i class="bi bi-list" aria-hidden="true"></i>
       </button>

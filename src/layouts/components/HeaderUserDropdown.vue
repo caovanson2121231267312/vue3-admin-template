@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
+const { t } = useI18n()
 
 function logout() {
   router.push({ name: 'Login' })
@@ -21,15 +23,15 @@ function logout() {
       >
         <i class="bi bi-person text-primary"></i>
       </span>
-      <span class="d-none d-md-inline">Admin</span>
+      <span class="d-none d-md-inline">{{ t('common.admin') }}</span>
     </button>
     <ul class="dropdown-menu dropdown-menu-end shadow animate__animated animate__fadeIn">
-      <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Hồ sơ</a></li>
-      <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Cài đặt</a></li>
+      <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>{{ t('common.profile') }}</a></li>
+      <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>{{ t('common.settings') }}</a></li>
       <li><hr class="dropdown-divider" /></li>
       <li>
         <button class="dropdown-item text-danger" type="button" @click="logout">
-          <i class="bi bi-box-arrow-right me-2"></i>Đăng xuất
+          <i class="bi bi-box-arrow-right me-2"></i>{{ t('common.logout') }}
         </button>
       </li>
     </ul>
