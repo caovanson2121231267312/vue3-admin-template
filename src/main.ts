@@ -11,6 +11,13 @@ import './style.css'
 import './theme-sidebar.css'
 import { initTheme, ensureThemeOverrideLast } from './config/themes'
 
+// Reload khi chunk dynamic import lỗi (thường do cache cũ sau deploy)
+if (typeof window !== 'undefined') {
+  window.addEventListener('vite:preloadError', () => {
+    window.location.reload()
+  })
+}
+
 initTheme()
 
 const app = createApp(App)

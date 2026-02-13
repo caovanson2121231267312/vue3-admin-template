@@ -32,6 +32,20 @@ const router = createRouter({
   },
 })
 
+// Khi load chunk (lazy route) lỗi, thử reload 1 lần (tránh cache cũ)
+router.onError((err) => {
+  if (err.message?.includes('Failed to fetch dynamically imported module') || err.message?.includes('Importing a module script failed')) {
+    const key = 'router_chunk_error_reload'
+    if (!sessionStorage.getItem(key)) {
+      sessionStorage.setItem(key, '1')
+      window.location.reload()
+      return
+    }
+    sessionStorage.removeItem(key)
+  }
+  throw err
+})
+
 /** Gắn router vào app (gọi trong main.ts) */
 export function setupRouter(app: App<Element>) {
   app.use(router)
