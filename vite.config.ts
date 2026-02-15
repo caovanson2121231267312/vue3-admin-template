@@ -11,6 +11,6 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['quill', '@vueup/vue-quill', 'quill-delta'],
+    include: ['quill', '@vueup/vue-quill', 'quill-delta', 'chart.js', 'vue-chartjs'],
   },
 })

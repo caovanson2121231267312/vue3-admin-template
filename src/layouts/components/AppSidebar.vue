@@ -49,12 +49,29 @@ watch(() => route.path, () => props.onClose())
 <style scoped>
 .app-sidebar-desktop {
   width: 260px;
+  height: 100vh;
   min-height: 100vh;
   position: fixed;
   left: 0;
   top: 0;
   z-index: 1030;
   border-right: 1px solid var(--sidebar-border, rgba(255, 255, 255, 0.08));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.app-sidebar-desktop :deep(.sidebar-content) {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.app-sidebar-desktop :deep(.sidebar-nav-wrap) {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 </style>
 

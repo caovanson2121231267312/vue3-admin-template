@@ -46,3 +46,32 @@ html body .sidebar-overlay-mobile__panel .sidebar-overlay-mobile__header {
   background-color: var(--sidebar-bg, #1a1a1a) !important;
   border-bottom-color: var(--sidebar-border, rgba(255, 255, 255, 0.08)) !important;
 }
+
+/* Scrollbar đẹp theo theme sidebar (tối) */
+.sidebar-theme-dark .sidebar-nav-wrap,
+.sidebar-theme-dark .sidebar-overlay-mobile__body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sidebar-scroll-thumb, rgba(255, 255, 255, 0.2)) var(--sidebar-scroll-track, transparent);
+}
+.sidebar-theme-dark .sidebar-nav-wrap::-webkit-scrollbar,
+.sidebar-theme-dark .sidebar-overlay-mobile__body::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar-theme-dark .sidebar-nav-wrap::-webkit-scrollbar-track,
+.sidebar-theme-dark .sidebar-overlay-mobile__body::-webkit-scrollbar-track {
+  background: var(--sidebar-scroll-track, transparent);
+  border-radius: 3px;
+}
+.sidebar-theme-dark .sidebar-nav-wrap::-webkit-scrollbar-thumb,
+.sidebar-theme-dark .sidebar-overlay-mobile__body::-webkit-scrollbar-thumb {
+  background: var(--sidebar-scroll-thumb, rgba(255, 255, 255, 0.2));
+  border-radius: 3px;
+}
+.sidebar-theme-dark .sidebar-nav-wrap::-webkit-scrollbar-thumb:hover,
+.sidebar-theme-dark .sidebar-overlay-mobile__body::-webkit-scrollbar-thumb:hover {
+  background: var(--sidebar-scroll-thumb-hover, rgba(255, 255, 255, 0.35));
+}
+.sidebar-theme-dark .sidebar-nav-wrap::-webkit-scrollbar-thumb:active,
+.sidebar-theme-dark .sidebar-overlay-mobile__body::-webkit-scrollbar-thumb:active {
+  background: var(--sidebar-scroll-thumb-active, rgba(255, 255, 255, 0.45));
+}

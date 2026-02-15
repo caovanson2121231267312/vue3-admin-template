@@ -44,6 +44,20 @@ export const sidebarMenu: SidebarMenuItem[] = [
     ],
   },
   {
+    title: 'nav.myDrive',
+    icon: 'bi-cloud-arrow-up',
+    routeName: 'Drive',
+    path: '/drive',
+    order: 4.5,
+  },
+  {
+    title: 'nav.messenger',
+    icon: 'bi-chat-dots',
+    routeName: 'Messenger',
+    path: '/messenger',
+    order: 4.6,
+  },
+  {
     title: 'nav.reports',
     icon: 'bi-graph-up',
     order: 5,

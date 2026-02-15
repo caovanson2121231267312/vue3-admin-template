@@ -66,6 +66,18 @@ export const routes: AppRouteRecordRaw[] = [
     meta: { title: 'nav.createOrder', hideInSidebar: true },
   },
   {
+    path: '/drive',
+    name: 'Drive',
+    component: () => import('../views/drive/DriveView.vue'),
+    meta: { title: 'nav.myDrive', icon: 'bi-cloud-arrow-up', order: 4.5 },
+  },
+  {
+    path: '/messenger',
+    name: 'Messenger',
+    component: () => import('../views/messenger/MessengerView.vue'),
+    meta: { title: 'nav.messenger', icon: 'bi-chat-dots', order: 4.6 },
+  },
+  {
     path: '/reports/sales',
     name: 'ReportSales',
     component: () => import('../views/reports/ReportSalesView.vue'),
